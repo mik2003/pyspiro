@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 numpy = "*"
+pyside6 = "*"
 
 [dev-packages]
 black = "*"
