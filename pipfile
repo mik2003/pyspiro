@@ -17,6 +17,7 @@ mypy = "*"
 pylint = "*"
 pytest = "*"
 pytest-cov = "*"
+matplotlib = "*"
 
 [requires]
 python_version = "3.12"
