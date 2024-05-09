@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
 
         # Setup of the layout
         self.preview_layout = PreviewLayout()
-        self.inputs_layout = InputsLayout()
+        self.inputs_layout = InputsLayout(preview=self.preview_layout)
 
         self.main_layout.addLayout(self.preview_layout)
         self.main_layout.addLayout(self.inputs_layout)
