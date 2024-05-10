@@ -1,7 +1,10 @@
 """Module for the layout of inputs."""
 
+import os
+
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtWidgets import (
+    QFileDialog,
     QHBoxLayout,
     QLabel,
     QLineEdit,
@@ -11,6 +14,7 @@ from PySide6.QtWidgets import (
 )
 
 from project.core.geometry import Spirograph
+from project.core.svg_encoder import SVGEncoder
 from project.gui.preview_layout import PreviewLayout
 
 
@@ -28,13 +32,21 @@ class InputsLayout(QVBoxLayout):
         def add_input_slot() -> None:
             self.add_input(self.add_input_name.text(), 0)
 
-        # Initialize add input layout
+        # Initialize add input layout (DEACTIVATED)
         self.add_input_layout = QHBoxLayout()
         self.add_input_name = QLineEdit("input_name")
         self.add_input_button = QPushButton("Add Input")
         self.add_input_button.clicked.connect(add_input_slot)
         self.add_input_layout.addWidget(self.add_input_name)
         self.add_input_layout.addWidget(self.add_input_button)
+
+        # Save SVG dialog
+        self.save_layout = QHBoxLayout()
+        self.save_buttton = QPushButton("Save Spirograph as SVG")
+        self.save_buttton.clicked.connect(self.save_file)
+        self.save_layout.addStretch()
+        self.save_layout.addWidget(self.save_buttton)
+        self.save_layout.addStretch()
 
         # Initialize sliders
         self._active = False
@@ -50,7 +62,18 @@ class InputsLayout(QVBoxLayout):
         # Populate layout
         self.addLayout(self.internal_layout)
         self.addStretch()
-        self.addLayout(self.add_input_layout)
+        self.addLayout(self.save_layout)
+        # self.addLayout(self.add_input_layout)
+
+    @Slot()
+    def save_file(self) -> None:
+        save_file = QFileDialog().getSaveFileName(
+            dir=str(os.path.join(os.getcwd(), "out")),
+            filter="*.svg",
+        )[0]
+        with open(save_file, "w", encoding="utf-8") as f:
+            svg = SVGEncoder.encode_path(self.spiro)
+            f.write(svg)
 
     def add_input(
         self,
