@@ -1,4 +1,4 @@
-# Spirograph
+# pyspiro
 
 This program is for making spirographs. the geometry follows these [definitions](https://en.wikipedia.org/wiki/Spirograph#Mathematical_basis).
 
